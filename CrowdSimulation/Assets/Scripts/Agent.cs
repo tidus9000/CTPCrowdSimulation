@@ -6,6 +6,7 @@ public class Agent : MonoBehaviour {
 
     [SerializeField] Vector2 m_velocity;
     [SerializeField] float m_maxspeed;
+    [SerializeField] float slowdown;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +18,15 @@ public class Agent : MonoBehaviour {
         m_velocity = Vector3.ClampMagnitude(m_velocity, m_maxspeed);
         position += m_velocity * Time.deltaTime;
         transform.position = position;
-	}
+
+        m_velocity *= slowdown;
+
+        if (m_velocity.magnitude <= 0.1)
+        {
+            m_velocity = Vector2.zero;
+        }
+
+    }
 
     public void AddForce(Vector2 _force)
     {
@@ -26,11 +35,6 @@ public class Agent : MonoBehaviour {
 
     public void Slowdown()
     {
-        m_velocity *= 0.75f;
-
-        if (m_velocity.magnitude <= 0.1)
-        {
-            m_velocity = Vector2.zero;
-        }
+       
     }
 }
