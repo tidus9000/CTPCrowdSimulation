@@ -91,7 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_velocity: {x: 0, y: 0}
   m_maxspeed: 5
-  slowdown: 0.9
+  slowdown: 0.99
+  nearbyRadius: 1.5
 --- !u!212 &212884384504265888
 SpriteRenderer:
   m_ObjectHideFlags: 1
