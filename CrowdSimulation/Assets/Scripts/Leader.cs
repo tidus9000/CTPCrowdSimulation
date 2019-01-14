@@ -36,24 +36,32 @@ public class Leader : MonoBehaviour {
             //there are two things to take into consideration when applying the force:
             //1. how close is the agent? we want a closer agent to be more affected by the leader
             //2. where is the agent? if they are in front, they are more likely to be slower to get behind the leader
-            
-            
+
+
             //dot product of direction and positions gives us distance of agent from direction.
             //if this is <0 that means it's behind us
-            float dot = Vector2.Dot(direction.normalized, (col.transform.position - transform.position).normalized);
 
-            Vector2 force = direction;
-
-            if (dot > 0)
+            if (direction.magnitude != 0)
             {
-                force *= inFrontMulfactor;
-            }
-            else if (dot<= 0)
-            {
-                force *= behindMulfactor;
-            }
+                float dot = Vector2.Dot(direction.normalized, (col.transform.position - transform.position).normalized);
 
-            col.GetComponent<Agent>().AddForce(force);
+                Vector2 force = direction;
+
+                if (dot > 0)
+                {
+                    force *= inFrontMulfactor;
+                }
+                else if (dot <= 0)
+                {
+                    force *= behindMulfactor;
+                }
+
+                col.GetComponent<Agent>().AddForce(force);
+            }
+            else
+            {
+                col.GetComponent<Agent>().Slowdown();
+            }
         }
     }
 
