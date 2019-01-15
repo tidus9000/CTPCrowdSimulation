@@ -6,16 +6,20 @@ public class Attractor : MonoBehaviour {
 
     [SerializeField] float m_radius;
 
-    GameObject[] agents;
 
 	// Use this for initialization
 	void Start () {
-        agents = GameObject.FindGameObjectsWithTag("Agent");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		foreach (GameObject agent in agents)
+
+	}
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        GameObject agent = collision.gameObject;
+        if (agent.CompareTag("Agent"))
         {
             Vector2 heading = transform.position - agent.transform.position;
 
@@ -29,15 +33,5 @@ public class Attractor : MonoBehaviour {
                 agent.GetComponent<Agent>().AddForce(heading);
             }
         }
-	}
-
-#if (UNITY_EDITOR)
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.white;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, m_radius);
     }
-
-#endif
 }

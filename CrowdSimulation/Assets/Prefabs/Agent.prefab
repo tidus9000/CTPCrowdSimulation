@@ -92,7 +92,7 @@ MonoBehaviour:
   m_velocity: {x: 0, y: 0}
   m_maxspeed: 2
   slowdown: 1
-  nearbyRadius: 1
+  nearbyRadius: 0.3
 --- !u!212 &212884384504265888
 SpriteRenderer:
   m_ObjectHideFlags: 1
