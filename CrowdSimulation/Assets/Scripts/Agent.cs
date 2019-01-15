@@ -77,7 +77,6 @@ public class Agent : MonoBehaviour {
        if (m_velocity.magnitude > 0.5)
         {
             m_velocity *= 0.75f;
-            Debug.Log("Slowing agent down");
         }
        else
         {

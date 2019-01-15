@@ -41,7 +41,7 @@ public class Leader : MonoBehaviour {
             //dot product of direction and positions gives us distance of agent from direction.
             //if this is <0 that means it's behind us
 
-            if (direction.magnitude != 0)
+            if (direction.magnitude >= 0.01)
             {
                 float dot = Vector2.Dot(direction.normalized, (col.transform.position - transform.position).normalized);
 
