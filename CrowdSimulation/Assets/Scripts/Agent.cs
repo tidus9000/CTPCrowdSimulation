@@ -49,7 +49,12 @@ public class Agent : MonoBehaviour {
                 m_velocity = averageDirection;
 
                 //get average position of surrounding agents for cohesion
-                m_velocity += Vector2.MoveTowards(transform.position, averagePosition, .1f);
+                Vector2 force = Vector2.zero;
+                force.x = averagePosition.x - transform.position.x;
+                force.y = averagePosition.y - transform.position.y;
+                m_velocity += force;
+                //m_velocity += Vector2.MoveTowards(transform.position, averagePosition, .1f);
+
             }
 
 
