@@ -8,7 +8,7 @@ public class Agent : MonoBehaviour {
     [SerializeField] float m_maxspeed;
     [SerializeField] float slowdown;
     [SerializeField] float nearbyRadius = 1;
-
+    [SerializeField] float separation = 1;
     [SerializeField]Vector2 averagePosition = Vector2.zero;
 
     bool m_forceAdded = false;
@@ -26,9 +26,11 @@ public class Agent : MonoBehaviour {
             bool nearby = false;
 
             //getting average direction of surrounding agents
+            //and average position
             Collider2D[] colliders = Physics2D.OverlapCircleAll(position, nearbyRadius);
             int i = 0;
             Vector2 averageDirection = Vector2.zero;
+            Vector2 separationForce = Vector2.zero;
             foreach (Collider2D col in colliders)
             {
                 if (col.CompareTag("Agent") && col.gameObject != this.gameObject)
@@ -37,6 +39,11 @@ public class Agent : MonoBehaviour {
                     averageDirection += agent.GetComponent<Agent>().m_velocity;
                     averagePosition.x += agent.transform.position.x;
                     averagePosition.y += agent.transform.position.y;
+
+                    separationForce.x += transform.position.x - agent.transform.position.x;
+                    separationForce.y += transform.position.y - agent.transform.position.y;
+
+
                     i++;
                     nearby = true;
                 }
@@ -44,12 +51,19 @@ public class Agent : MonoBehaviour {
 
             if (nearby)
             {
+                //apply alignment
                 averageDirection /= i;
                 averagePosition /= i;
-                m_velocity = averageDirection;
+                m_velocity += averageDirection;
 
-                //get average position of surrounding agents for cohesion
-                m_velocity += Vector2.MoveTowards(transform.position, averagePosition, .1f);
+                //apply cohesion
+                Vector2 force = Vector2.zero;
+                force.x = averagePosition.x - transform.position.x;
+                force.y = averagePosition.y - transform.position.y;
+                m_velocity += force;
+
+                //apply separation
+                m_velocity += separationForce * separation;
             }
 
 
