@@ -19,7 +19,6 @@ public class destroyer : MonoBehaviour {
         GameObject agent = collision.gameObject;
         if (agent.CompareTag("Agent"))
         {
-            Debug.Log("found an agent");
             Destroy(agent);
         }
     }

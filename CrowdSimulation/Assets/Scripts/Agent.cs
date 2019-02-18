@@ -41,19 +41,27 @@ public class Agent : MonoBehaviour {
             Vector2 separationForce = Vector2.zero;
             foreach (Collider2D col in colliders)
             {
+
                 if (col.CompareTag("Agent") && col.gameObject != this.gameObject)
                 {
+                    bool obstacle = false;
+                   
                     GameObject agent = col.gameObject;
-                    averageDirection += agent.GetComponent<Agent>().m_velocity;
-                    averagePosition.x += agent.transform.position.x;
-                    averagePosition.y += agent.transform.position.y;
 
-                    separationForce.x += transform.position.x - agent.transform.position.x;
-                    separationForce.y += transform.position.y - agent.transform.position.y;
+                    if (!obstacle)
+                    {
+                        averageDirection += agent.GetComponent<Agent>().m_velocity;
+                        averagePosition.x += agent.transform.position.x;
+                        averagePosition.y += agent.transform.position.y;
+
+                        separationForce.x += transform.position.x - agent.transform.position.x;
+                        separationForce.y += transform.position.y - agent.transform.position.y;
 
 
-                    i++;
-                    nearby = true;
+                        i++;
+                        nearby = true;
+                    }
+
 
                     //if the agent is panicked, spread the panic to nearby agents too
                     if (m_panicked)
@@ -65,6 +73,7 @@ public class Agent : MonoBehaviour {
 
             if (nearby)
             {
+
                 //apply alignment
                 averageDirection /= i;
                 averagePosition /= i;
