@@ -11,10 +11,18 @@ public class Agent : MonoBehaviour {
     [SerializeField] float separation = 1;
     [SerializeField]Vector2 averagePosition = Vector2.zero;
 
+    //variables for behaviour when agent is panicked
+    [SerializeField] bool m_panicked = false;
+    [SerializeField] float m_maxPanickedSpeed;
+    [SerializeField] float m_maxPanicTime;
+    float m_defaultMaxSpeed;
+    float panickedTimer = 0f;
+
     bool m_forceAdded = false;
 
 	// Use this for initialization
 	void Start () {
+        m_defaultMaxSpeed = m_maxspeed;
 	}
 	
 	// Update is called once per frame
@@ -46,6 +54,12 @@ public class Agent : MonoBehaviour {
 
                     i++;
                     nearby = true;
+
+                    //if the agent is panicked, spread the panic to nearby agents too
+                    if (m_panicked)
+                    {
+                        agent.GetComponent<Agent>().panic();
+                    }
                 }
             }
 
@@ -66,16 +80,28 @@ public class Agent : MonoBehaviour {
                 m_velocity += separationForce * separation;
             }
 
-
+            //apply any slowdown
             m_velocity *= slowdown;
 
+            //stop agent if it is going slow enough
             if (m_velocity.magnitude <= 0.1)
             {
                 m_velocity = Vector2.zero;
             }
+            //reset averageposition for next frame
             averagePosition = Vector2.zero;
         }
 
+        if (m_panicked)
+        {
+            panickedTimer += Time.deltaTime;
+            if (panickedTimer >= m_maxPanicTime)
+            {
+                panickedTimer = 0;
+                m_panicked = false;
+                m_maxspeed = m_defaultMaxSpeed;
+            }
+        }
 
         m_velocity = Vector3.ClampMagnitude(m_velocity, m_maxspeed);
         position += m_velocity * Time.deltaTime;
@@ -97,6 +123,12 @@ public class Agent : MonoBehaviour {
 
 #endif
 
+    public void panic()
+    {
+        panickedTimer = 0f;
+        m_maxspeed = m_maxPanickedSpeed;
+        m_panicked = true;
+    }
 
     public void AddForce(Vector2 _force)
     {
