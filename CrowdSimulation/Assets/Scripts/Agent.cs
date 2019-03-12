@@ -18,6 +18,8 @@ public class Agent : MonoBehaviour {
     float m_defaultMaxSpeed;
     float panickedTimer = 0f;
 
+    [SerializeField] bool monitor = false;
+
     bool m_forceAdded = false;
 
 	// Use this for initialization
@@ -73,10 +75,11 @@ public class Agent : MonoBehaviour {
 
             if (nearby)
             {
-
+                averageDirection += GetComponent<Agent>().m_velocity;
+                averagePosition += new Vector2(transform.position.x, transform.position.y);
                 //apply alignment
-                averageDirection /= i;
-                averagePosition /= i;
+                averageDirection /= i + 1;
+                averagePosition /= i + 1;
                 m_velocity += averageDirection;
 
                 //apply cohesion
@@ -87,6 +90,13 @@ public class Agent : MonoBehaviour {
 
                 //apply separation
                 m_velocity += separationForce * separation;
+
+                if (monitor)
+                {
+                    Debug.Log(gameObject.name + " number nearby: " + i);
+                    Debug.Log(gameObject.name + " average position: " + i);
+                    Debug.Log(gameObject.name + " average direction: " + i);
+                }
             }
 
             //apply any slowdown
@@ -99,6 +109,10 @@ public class Agent : MonoBehaviour {
             }
             //reset averageposition for next frame
             averagePosition = Vector2.zero;
+        }else
+        {
+            var lineRend = GetComponent<LineRenderer>();
+            lineRend.positionCount = 0;
         }
 
         if (m_panicked)
@@ -141,6 +155,13 @@ public class Agent : MonoBehaviour {
 
     public void AddForce(Vector2 _force)
     {
+        var lineRend = GetComponent<LineRenderer>();
+        lineRend.gameObject.SetActive(true);
+        Vector2 sp = transform.position;
+        Vector2 ep = new Vector2(transform.position.x, transform.position.y) + _force;
+        lineRend.positionCount += 2;
+        lineRend.SetPosition(lineRend.positionCount - 2, sp);
+        lineRend.SetPosition(lineRend.positionCount - 1, ep);
         m_forceAdded = true;
         m_velocity += _force;
     }
