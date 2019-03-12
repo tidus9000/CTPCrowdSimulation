@@ -93,8 +93,8 @@ MonoBehaviour:
   m_velocity: {x: 0, y: 0}
   m_maxspeed: 2
   slowdown: 1
-  nearbyRadius: 1
-  separation: 0.1
+  nearbyRadius: 0.5
+  separation: 0.25
   averagePosition: {x: 0, y: 0}
   m_panicked: 0
   m_maxPanickedSpeed: 5
