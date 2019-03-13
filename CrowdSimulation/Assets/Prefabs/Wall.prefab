@@ -78,8 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a3264226a24d542b093bba4de5057d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  affectdistance: 1
-  force: 1
+  affectdistance: 0.5
+  force: 2.5
 --- !u!212 &212831269887733574
 SpriteRenderer:
   m_ObjectHideFlags: 1
