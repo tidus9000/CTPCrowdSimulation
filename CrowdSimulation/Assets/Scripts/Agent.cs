@@ -109,10 +109,6 @@ public class Agent : MonoBehaviour {
             }
             //reset averageposition for next frame
             averagePosition = Vector2.zero;
-        }else
-        {
-            var lineRend = GetComponent<LineRenderer>();
-            lineRend.positionCount = 0;
         }
 
         if (m_panicked)
@@ -155,13 +151,8 @@ public class Agent : MonoBehaviour {
 
     public void AddForce(Vector2 _force)
     {
-        var lineRend = GetComponent<LineRenderer>();
-        lineRend.gameObject.SetActive(true);
         Vector2 sp = transform.position;
         Vector2 ep = new Vector2(transform.position.x, transform.position.y) + _force;
-        lineRend.positionCount += 2;
-        lineRend.SetPosition(lineRend.positionCount - 2, sp);
-        lineRend.SetPosition(lineRend.positionCount - 1, ep);
         m_forceAdded = true;
         m_velocity += _force;
     }

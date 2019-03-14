@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InfluenceRadius: 1
-  m_force: 1
+  m_force: 10
   m_angle: 270
 --- !u!212 &212121113375238724
 SpriteRenderer:

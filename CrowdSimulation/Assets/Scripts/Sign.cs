@@ -30,6 +30,7 @@ public class Sign : MonoBehaviour {
             Vector3 rotateVector = rotation * myVector;
             rotateVector.Normalize();
             rotateVector *= m_force;
+            rotateVector *= Time.deltaTime;
             col.GetComponent<Agent>().AddForce(rotateVector);
         }
     }

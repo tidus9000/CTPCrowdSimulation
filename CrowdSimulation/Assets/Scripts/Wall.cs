@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour {
 
-    [SerializeField] float affectdistance = 1;
+    [SerializeField] Vector2 affectdistance = new Vector2(1, 1);
     [SerializeField] float force = 1;
 
 	// Use this for initialization
@@ -14,7 +14,7 @@ public class Wall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(transform.localScale.x + affectdistance, transform.localScale.y + affectdistance), 0.0f);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(transform.localScale.x + affectdistance.x, transform.localScale.y + affectdistance.y), 0.0f);
         foreach (Collider2D col in colliders)
         {
             if (col.tag == "Agent")
@@ -69,7 +69,7 @@ public class Wall : MonoBehaviour {
     void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(transform.position, new Vector3(transform.localScale.x + affectdistance, transform.localScale.y + affectdistance, transform.localScale.z));
+        Gizmos.DrawWireCube(transform.position, new Vector3(transform.localScale.x + affectdistance.x, transform.localScale.y + affectdistance.y, transform.localScale.z));
     }
 
 #endif
