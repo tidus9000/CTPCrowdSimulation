@@ -22,10 +22,7 @@ public class Wall : MonoBehaviour {
                 var wallCollider = GetComponent<Collider2D>();
 
 
-                //this bit doesnt work for some reason.
                 Vector2 heading = wallCollider.bounds.ClosestPoint(col.transform.position);
-
-                Debug.Log(heading);
                 heading.x -= col.gameObject.transform.position.x;
                 heading.y -= col.gameObject.transform.position.y;
                 // We then get the opposite (-Vector3) and normalize it
